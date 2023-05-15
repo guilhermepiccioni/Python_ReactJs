@@ -2,28 +2,25 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function App() {
-  const [data, setData] = useState(null);
+  const [body, setBody] = useState('');
 
   useEffect(() => {
-    axios.get('api')
-      .then(response => {
-        setData(response.data);
-      })
-      .catch(error => {
+    axios
+        .get('http://localhost:8000/api')
+        .then((response) => {
+            const data = response.data
+            setBody(data['body']);
+        })
+        .catch(error => {
         console.error(error);
-      });
-  }, []);
+        });
+    }, [])
 
-  return (
-    <div>
-      <h1>React.js + FastAPI Example</h1>
-      {data ? (
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
-  )
+    return (
+        <div>
+            <h1>{body}</h1>
+        </div>
+    );
 }
 
 export default App;
